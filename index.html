@@ -1,130 +1,246 @@
-import React, { useState } from 'react';
-import { Sun, Flame, Gift, Clock, ChevronRight, Tag, MonitorPlay, MousePointerClick, ExternalLink, Copy, Check, Github } from 'lucide-react';
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState('tab1');
-  const [copiedId, setCopiedId] = useState(null);
-
-  // Font family setup consistent with Cambria/Serif theme
-  const fontStyle = { fontFamily: "'Cambria', Georgia, serif" };
-  const bgPNJBlue = "bg-[#003366]";
-  const textPNJBlue = "text-[#003366]";
-  const bgGold = "bg-[#D4AF37]"; // Premium PNJ Gold
-  const borderGold = "border-[#D4AF37]";
-
-  // Safe clipboard copy mechanism for platform compliance
-  const handleCopy = (text, id) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand('copy');
-      setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 1500);
-    } catch (err) {
-      console.error('Không thể sao chép: ', err);
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TỔNG HỢP CTKM THÁNG 6.2026 - PNJ ONLINE</title>
+  
+  <!-- CDN Links for React & Tailwind CSS -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* Premium Typography styling matching PNJ guidelines */
+    body {
+      font-family: 'Cambria', Georgia, serif;
     }
-    document.body.removeChild(textArea);
-  };
+  </style>
+  
+  <script>
+    // Custom tailwind theme extension for summer animations
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'spin-slow': 'spin 12s linear infinite',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#f6fafc] min-h-screen text-slate-800">
+  <div id="root"></div>
 
-  // Decorative Summer SVG Icons for Core Guidelines
-  const SummerIcons = {
-    Sun: () => (
-      <svg className="w-5 h-5 text-amber-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <!-- React Code in Babel Script for Browser Compiling -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- LIGHTWEIGHT INLINE LUCIDE REACT COMPONENT REPLACEMENTS ---
+    const Sun = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="4" />
         <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
       </svg>
-    ),
-    Wave: () => (
-      <svg className="w-5 h-5 text-sky-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M2 6c3-1.5 5-1.5 8 0s5 1.5 8 0 5-1.5 8 0M2 12c3-1.5 5-1.5 8 0s5 1.5 8 0 5-1.5 8 0M2 18c3-1.5 5-1.5 8 0s5 1.5 8 0 5-1.5 8 0" />
+    );
+
+    const Flame = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
       </svg>
-    ),
-    Sunglasses: () => (
-      <svg className="w-5 h-5 text-pink-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M2 12a3 3 0 0 0 6 0h4a3 3 0 0 0 6 0M2 12h18" />
-        <path d="M5 12c0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5" />
-        <path d="M12 12c0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5" />
+    );
+
+    const Gift = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 12 20 22 4 22 4 12" />
+        <rect x="2" y="7" width="20" height="5" />
+        <line x1="12" y1="22" x2="12" y2="7" />
+        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
       </svg>
-    )
-  };
+    );
 
-  // Background pattern for subtle summer vibes
-  const summerBg = {
-    backgroundColor: '#f6fafc',
-    backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40c10-5 20-5 30 0s20 5 30 0 20-5 30 0M0 80c10-5 20-5 30 0s20 5 30 0 20-5 30 0' fill='none' stroke='%23003366' stroke-opacity='0.02' stroke-width='2'/%3E%3C/svg%3E")`
-  };
+    const Clock = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+    );
 
-  return (
-    <div className="min-h-screen text-slate-800 flex flex-col justify-between" style={{ ...fontStyle, ...summerBg }}>
-      
-      <div>
-        {/* Visual Campaign Banner */}
-        <div className="w-full bg-[#002244] overflow-hidden">
-          <div className="max-w-6xl mx-auto">
-            <img 
-              src="https://raw.githubusercontent.com/khbl-digital/CTKM-T6/refs/heads/main/1972x640.jpg" 
-              alt="Mix & Shine - Bật Vibe Hè PNJ Banner" 
-              className="w-full h-auto object-cover"
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
-            />
-          </div>
-        </div>
+    const ChevronRight = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    );
 
-        {/* Header - Styled with PNJ Identity */}
-        <header className={`${bgPNJBlue} text-white shadow-md relative py-6 md:py-8`}>
-          <div className="max-w-6xl mx-auto px-4 relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="bg-[#D4AF37] text-[#003366] text-[10px] md:text-xs font-bold px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider">
-                  Mix & Shine
-                </span>
-                <span className="text-[#F2A900] text-xs md:text-sm font-semibold tracking-wider">BẬT VIBE HÈ</span>
+    const Tag = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z" />
+        <circle cx="7" cy="7" r="1" fill="currentColor" />
+      </svg>
+    );
+
+    const MonitorPlay = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <polyline points="8 21 12 17 16 21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+        <polygon points="10 7 15 10 10 13" />
+      </svg>
+    );
+
+    const MousePointerClick = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m9 9 5 12 1.774-5.226L21 14Z" />
+        <path d="m16.071 16.071 4.243 4.243" />
+        <path d="M9 3v2" />
+        <path d="m5.222 5.222.707.707" />
+        <path d="M3 9h2" />
+      </svg>
+    );
+
+    const ExternalLink = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <polyline points="15 3 21 3 21 9" />
+        <line x1="10" y1="14" x2="21" y2="3" />
+      </svg>
+    );
+
+    const Copy = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+    );
+
+    const Check = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    );
+
+    const Github = ({ className }) => (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+      </svg>
+    );
+
+    const SummerIcons = {
+      Sun: () => (
+        <svg className="w-5 h-5 text-amber-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      ),
+      Wave: () => (
+        <svg className="w-5 h-5 text-sky-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M2 6c3-1.5 5-1.5 8 0s5 1.5 8 0 5-1.5 8 0M2 12c3-1.5 5-1.5 8 0s5 1.5 8 0 5-1.5 8 0M2 18c3-1.5 5-1.5 8 0s5 1.5 8 0 5-1.5 8 0" />
+        </svg>
+      ),
+      Sunglasses: () => (
+        <svg className="w-5 h-5 text-pink-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M2 12a3 3 0 0 0 6 0h4a3 3 0 0 0 6 0M2 12h18" />
+          <path d="M5 12c0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5" />
+          <path d="M12 12c0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5" />
+        </svg>
+      )
+    };
+
+    // --- MAIN REACT APPLICATION COMPONENT ---
+    function App() {
+      const [activeTab, setActiveTab] = useState('tab1');
+      const [copiedId, setCopiedId] = useState(null);
+
+      const bgPNJBlue = "bg-[#003366]";
+      const textPNJBlue = "text-[#003366]";
+      const bgGold = "bg-[#D4AF37]";
+      const borderGold = "border-[#D4AF37]";
+
+      const handleCopy = (text, id) => {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          setCopiedId(id);
+          setTimeout(() => setCopiedId(null), 1500);
+        } catch (err) {
+          console.error('Không thể sao chép: ', err);
+        }
+        document.body.removeChild(textArea);
+      };
+
+      return (
+        <div className="flex flex-col justify-between min-h-screen">
+          <div>
+            {/* Visual Campaign Banner */}
+            <div className="w-full bg-[#002244] overflow-hidden">
+              <div className="max-w-6xl mx-auto">
+                <img 
+                  src="https://raw.githubusercontent.com/khbl-digital/CTKM-T6/refs/heads/main/1972x640.jpg" 
+                  alt="Mix & Shine - Bật Vibe Hè PNJ Banner" 
+                  className="w-full h-auto object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
               </div>
-              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">
-                TỔNG HỢP CTKM THÁNG 6.2026
-              </h1>
             </div>
-            
-            {/* Header Right Actions: Campaign Time & GitHub Link */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
-              <div className="bg-white/10 px-3.5 py-1.5 md:py-2 rounded-lg border border-white/20 text-[11px] md:text-xs text-blue-200">
-                Hiệu lực chương trình: <span className="text-white font-bold block text-xs md:text-sm">Tháng 06/2026</span>
-              </div>
-              <a 
-                href="https://github.com/khbl-digital/CTKM-T6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/10 hover:bg-white/20 p-2 rounded-lg border border-white/20 text-white transition-all flex items-center justify-center"
-                title="Xem mã nguồn trên GitHub"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-        </header>
 
-        {/* Primary Tabs Navigation - Touch Optimized */}
-        <div className="max-w-6xl mx-auto px-2 md:px-4 mt-4 md:mt-8">
-          <div className="flex gap-2 border-b-2 border-gray-200">
-            <button
-              onClick={() => setActiveTab('tab1')}
-              className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
-                activeTab === 'tab1' 
-                  ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
-                  : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
-              }`}
-            >
-              TIỀM NĂNG 
-              <Flame className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === 'tab1' ? "text-[#F2A900] fill-[#F2A900]" : "text-gray-400"}`} />
-            </button>
-            <button
-              onClick={() => setActiveTab('tab2')}
-              className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
-                activeTab === 'tab2' 
+            {/* Header - Styled with PNJ Identity */}
+            <header className={`${bgPNJBlue} text-white shadow-md relative py-6 md:py-8`}>
+              <div className="max-w-6xl mx-auto px-4 relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="bg-[#D4AF37] text-[#003366] text-[10px] md:text-xs font-bold px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider">
+                      Mix & Shine
+                    </span>
+                    <span className="text-[#F2A900] text-xs md:text-sm font-semibold tracking-wider">BẬT VIBE HÈ</span>
+                  </div>
+                  <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">
+                    TỔNG HỢP CTKM THÁNG 6.2026
+                  </h1>
+                </div>
+                
+                <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                  <div className="bg-white/10 px-3.5 py-1.5 md:py-2 rounded-lg border border-white/20 text-[11px] md:text-xs text-blue-200">
+                    Hiệu lực chương trình: <span className="text-white font-bold block text-xs md:text-sm">Tháng 06/2026</span>
+                  </div>
+                  <a 
+                    href="https://github.com/khbl-digital/CTKM-T6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white/10 hover:bg-white/20 p-2 rounded-lg border border-white/20 text-white transition-all flex items-center justify-center"
+                    title="Xem mã nguồn trên GitHub"
+                  >
+                    <Github className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </header>
+
+            {/* Primary Tabs Navigation - Touch Optimized */}
+            <div className="max-w-6xl mx-auto px-2 md:px-4 mt-4 md:mt-8">
+              <div className="flex gap-2 border-b-2 border-gray-200">
+                <button
+                  onClick={() => setActiveTab('tab1')}
+                  className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
+                    activeTab === 'tab1' 
+                      ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
+                      : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
+                  }`}
+                >
+                  TIỀM NĂNG 
+                  <Flame className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === 'tab1' ? "text-[#F2A900] fill-[#F2A900]" : "text-gray-400"}`} />
+                </button>
+                <button
+                  onClick={() => setActiveTab('tab2')}
+                  className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
+                    activeTab === 'tab2' 
                   ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
                   : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
               }`}
@@ -140,7 +256,7 @@ export default function App() {
           
           {/* ================= TAB 1: KHÁCH HÀNG TIỀM NĂNG ================= */}
           {activeTab === 'tab1' && (
-            <div className="space-y-4 md:space-y-6 animate-in fade-in duration-300">
+            <div className="space-y-4 md:space-y-6">
               
               {/* CÁCH THỨC THAM GIA */}
               <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -149,7 +265,6 @@ export default function App() {
                   <h2 className={`font-bold text-base md:text-xl ${textPNJBlue}`}>1. Cách thức tham gia chương trình</h2>
                 </div>
                 <div className="p-4 md:p-6">
-                  {/* Vertical Timeline pattern for Mobile, Columns for Desktop */}
                   <div className="flex flex-col md:grid md:grid-cols-4 gap-4 relative border-l-2 border-[#D4AF37] md:border-l-0 ml-3 md:ml-0 pl-4 md:pl-0">
                     
                     {/* Step 1 */}
@@ -217,7 +332,7 @@ export default function App() {
                 </div>
                 
                 <div className="p-4 md:p-6">
-                  {/* Saledeal Alert (One-tap Copy on Mobile) */}
+                  {/* Saledeal Alert */}
                   <div className="mb-4 w-full">
                     <button 
                       onClick={() => handleCopy('TBU', 'main-deal')}
@@ -245,7 +360,6 @@ export default function App() {
                         </tr>
                       </thead>
                       <tbody className="text-sm divide-y divide-gray-200">
-                        {/* Desktop rows */}
                         <tr className="hover:bg-blue-50/30 transition-colors">
                           <td className="p-4 font-bold text-lg text-[#003366] border-r border-gray-100">
                             9% <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
@@ -305,7 +419,7 @@ export default function App() {
                     </table>
                   </div>
 
-                  {/* MOBILE VOUCHER CARDS VIEW (Extremely legible on phones) */}
+                  {/* MOBILE VOUCHER CARDS VIEW */}
                   <div className="block md:hidden space-y-3">
                     {[
                       { val: "9%", cap: "Tối đa 1.500.000Đ", cat: "Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp", user: "Khách hàng MỚI", userBg: "bg-emerald-50 text-emerald-800" },
@@ -315,9 +429,7 @@ export default function App() {
                       { val: "5%", cap: "Tối đa 1.500.000Đ", cat: "Trang sức Ý, Dây chuyền Vàng/Platinum", user: "Khách mới & cũ", userBg: "bg-blue-50 text-blue-800" }
                     ].map((card, i) => (
                       <div key={i} className="bg-slate-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between gap-4 relative overflow-hidden shadow-sm">
-                        {/* Decorative side accent */}
                         <div className="absolute left-0 top-0 h-full w-1.5 bg-[#003366]"></div>
-                        
                         <div className="flex-1 pl-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${card.userBg}`}>
@@ -326,7 +438,6 @@ export default function App() {
                           </div>
                           <p className="text-xs text-gray-500 font-medium">{card.cat}</p>
                         </div>
-                        
                         <div className="text-right shrink-0 border-l border-gray-200 pl-4 min-w-[100px]">
                           <p className="text-2xl font-black text-[#003366] tracking-tight">{card.val}</p>
                           <p className="text-[10px] text-gray-500 font-medium mt-0.5">{card.cap}</p>
@@ -338,16 +449,15 @@ export default function App() {
                 </div>
               </section>
 
-              {/* LƯU Ý ÁP DỤNG (3 MOBILE COMPACT GRID) */}
+              {/* LƯU Ý ÁP DỤNG */}
               <section className="bg-yellow-50 rounded-xl shadow-sm border border-yellow-200 overflow-hidden">
                 <div className="border-b border-yellow-200 bg-yellow-100/50 p-3.5 md:p-4 flex items-center gap-2">
-                  <Sun className="text-yellow-600 w-5 h-5 animate-[spin_12s_linear_infinite]" />
+                  <Sun className="text-yellow-600 w-5 h-5 animate-spin-slow" />
                   <h2 className="font-bold text-base md:text-xl text-yellow-800">3. Lưu ý áp dụng quan trọng</h2>
                 </div>
                 <div className="p-4 md:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     
-                    {/* Note 1: Hạn sử dụng */}
                     <div className="bg-white/80 p-4 rounded-xl border border-yellow-200/50 shadow-sm flex gap-3 items-center md:items-start min-h-[70px] md:min-h-[96px]">
                       <div className="shrink-0">
                         <SummerIcons.Wave />
@@ -358,7 +468,6 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Note 2: Tần suất */}
                     <div className="bg-white/80 p-4 rounded-xl border border-yellow-200/50 shadow-sm flex gap-3 items-center min-h-[70px] md:min-h-[96px]">
                       <div className="shrink-0">
                         <SummerIcons.Sun />
@@ -368,7 +477,6 @@ export default function App() {
                       </p>
                     </div>
 
-                    {/* Note 3: Đồng bộ hệ thống */}
                     <div className="bg-white/80 p-4 rounded-xl border border-yellow-200/50 shadow-sm flex gap-3 items-center min-h-[70px] md:min-h-[96px]">
                       <div className="shrink-0">
                         <SummerIcons.Sunglasses />
@@ -386,7 +494,7 @@ export default function App() {
 
           {/* ================= TAB 2: CHƯƠNG TRÌNH AWO ================= */}
           {activeTab === 'tab2' && (
-            <div className="space-y-4 md:space-y-6 animate-in fade-in duration-300">
+            <div className="space-y-4 md:space-y-6">
               
               {/* 1. CHƯƠNG TRÌNH TAB SALE */}
               <ProgramCard 
@@ -430,7 +538,6 @@ export default function App() {
                 onCopyClick={(code) => handleCopy(code, 'livestream')}
                 isCopied={copiedId === 'livestream'}
               >
-                {/* Table with horizontal scroll indicator on Mobile */}
                 <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-inner mb-4 bg-white relative">
                   <table className="w-full text-left border-collapse text-xs md:text-sm min-w-[500px] sm:min-w-0">
                     <thead className="bg-red-50 text-red-900">
@@ -658,3 +765,10 @@ function ProgramCard({ title, time, saledeal, icon, color, isHot, onCopyClick, i
     </section>
   );
 }
+
+    // Render App to DOM
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
