@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Sun, Flame, Gift, Clock, ChevronRight, Tag, MonitorPlay, MousePointerClick, ExternalLink } from 'lucide-react';
+import { Sun, Flame, Gift, Clock, ChevronRight, Tag, MonitorPlay, MousePointerClick, ExternalLink, Copy, Check } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('tab1');
+  const [copiedId, setCopiedId] = useState(null);
 
   // Font family setup consistent with Cambria/Serif theme
   const fontStyle = { fontFamily: "'Cambria', Georgia, serif" };
@@ -10,6 +11,22 @@ export default function App() {
   const textPNJBlue = "text-[#003366]";
   const bgGold = "bg-[#D4AF37]"; // Premium PNJ Gold
   const borderGold = "border-[#D4AF37]";
+
+  // Safe clipboard copy mechanism for platform compliance
+  const handleCopy = (text, id) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 1500);
+    } catch (err) {
+      console.error('Không thể sao chép: ', err);
+    }
+    document.body.removeChild(textArea);
+  };
 
   // Decorative Summer SVG Icons for Core Guidelines
   const SummerIcons = {
@@ -58,115 +75,114 @@ export default function App() {
         </div>
 
         {/* Header - Styled with PNJ Identity */}
-        <header className={`${bgPNJBlue} text-white shadow-md relative py-8`}>
-          <div className="max-w-6xl mx-auto px-4 relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center">
+        <header className={`${bgPNJBlue} text-white shadow-md relative py-6 md:py-8`}>
+          <div className="max-w-6xl mx-auto px-4 relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="bg-[#D4AF37] text-[#003366] text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="bg-[#D4AF37] text-[#003366] text-[10px] md:text-xs font-bold px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider">
                   Mix & Shine
                 </span>
-                <span className="text-[#F2A900] text-sm font-semibold tracking-wider">BẬT VIBE HÈ</span>
+                <span className="text-[#F2A900] text-xs md:text-sm font-semibold tracking-wider">BẬT VIBE HÈ</span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight uppercase">
+              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight uppercase">
                 TỔNG HỢP CTKM THÁNG 6.2026
               </h1>
             </div>
-            <div className="mt-4 md:mt-0 bg-white/10 px-4 py-2 rounded-lg border border-white/20 text-xs text-blue-200">
-              Hiệu lực chương trình: <span className="text-white font-bold block text-sm">Tháng 06/2026</span>
+            <div className="bg-white/10 px-3.5 py-1.5 md:py-2 rounded-lg border border-white/20 text-[11px] md:text-xs text-blue-200">
+              Hiệu lực chương trình: <span className="text-white font-bold block text-xs md:text-sm">Tháng 06/2026</span>
             </div>
           </div>
         </header>
 
-        {/* Primary Tabs Navigation */}
-        <div className="max-w-6xl mx-auto px-4 mt-8">
-          <div className="flex flex-col sm:flex-row gap-2 border-b-2 border-gray-200">
+        {/* Primary Tabs Navigation - Touch Optimized */}
+        <div className="max-w-6xl mx-auto px-2 md:px-4 mt-4 md:mt-8">
+          <div className="flex gap-2 border-b-2 border-gray-200">
             <button
               onClick={() => setActiveTab('tab1')}
-              className={`px-6 py-4 font-bold text-lg rounded-t-lg transition-all flex items-center justify-center gap-2 border-b-2 ${
+              className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
                 activeTab === 'tab1' 
                   ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
                   : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
               }`}
             >
-              KHÁCH HÀNG TIỀM NĂNG 
-              <Flame className={`w-5 h-5 ${activeTab === 'tab1' ? "text-[#F2A900] fill-[#F2A900]" : "text-gray-400"}`} />
+              TIỀM NĂNG 
+              <Flame className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === 'tab1' ? "text-[#F2A900] fill-[#F2A900]" : "text-gray-400"}`} />
             </button>
             <button
               onClick={() => setActiveTab('tab2')}
-              className={`px-6 py-4 font-bold text-lg rounded-t-lg transition-all flex items-center justify-center gap-2 border-b-2 ${
+              className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
                 activeTab === 'tab2' 
                   ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
                   : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
               }`}
             >
               CHƯƠNG TRÌNH AWO 
-              <Gift className={`w-5 h-5 ${activeTab === 'tab2' ? "text-[#F2A900]" : "text-gray-400"}`} />
+              <Gift className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === 'tab2' ? "text-[#F2A900]" : "text-gray-400"}`} />
             </button>
           </div>
         </div>
 
         {/* Main Work Area */}
-        <main className="max-w-6xl mx-auto px-4 mt-6">
+        <main className="max-w-6xl mx-auto px-3 md:px-4 mt-4 md:mt-6">
           
           {/* ================= TAB 1: KHÁCH HÀNG TIỀM NĂNG ================= */}
           {activeTab === 'tab1' && (
-            <div className="space-y-6 animate-in fade-in duration-300">
+            <div className="space-y-4 md:space-y-6 animate-in fade-in duration-300">
               
               {/* CÁCH THỨC THAM GIA */}
               <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="border-b border-gray-100 bg-blue-50/50 p-4 flex items-center gap-2">
+                <div className="border-b border-gray-100 bg-blue-50/50 p-3.5 md:p-4 flex items-center gap-2">
                   <MousePointerClick className={`${textPNJBlue} w-5 h-5`} />
-                  <h2 className={`font-bold text-xl ${textPNJBlue}`}>1. Cách thức tham gia chương trình</h2>
+                  <h2 className={`font-bold text-base md:text-xl ${textPNJBlue}`}>1. Cách thức tham gia chương trình</h2>
                 </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="p-4 md:p-6">
+                  {/* Vertical Timeline pattern for Mobile, Columns for Desktop */}
+                  <div className="flex flex-col md:grid md:grid-cols-4 gap-4 relative border-l-2 border-[#D4AF37] md:border-l-0 ml-3 md:ml-0 pl-4 md:pl-0">
                     
                     {/* Step 1 */}
-                    <div className="bg-gray-50 rounded-lg p-5 relative border border-gray-100 flex flex-col justify-between h-full">
-                      <div>
-                        <div className={`absolute -top-3 -left-2 w-8 h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center font-bold shadow-sm`}>
-                          1
-                        </div>
-                        <p className="text-sm font-semibold text-gray-700 pt-2 mb-4">
-                          Khách hàng truy cập vào trang LDP chương trình
-                        </p>
+                    <div className="relative flex flex-col justify-between h-full pb-2 md:pb-0">
+                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
+                        1
                       </div>
+                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2 mb-3">
+                        Khách hàng truy cập vào trang LDP chương trình
+                      </p>
                       <a 
                         href="https://www.pnj.com.vn/khuyen-mai/" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="mt-2 inline-flex items-center justify-center gap-1 bg-[#003366] hover:bg-[#002244] text-white text-xs font-bold py-2 px-3 rounded transition-all w-full text-center"
+                        className="inline-flex items-center justify-center gap-1.5 bg-[#003366] hover:bg-[#002244] text-white text-xs font-bold py-2.5 px-3 rounded transition-all w-full text-center shadow-sm"
                       >
                         Mở Link LDP <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     </div>
 
                     {/* Step 2 */}
-                    <div className="bg-gray-50 rounded-lg p-5 relative border border-gray-100">
-                      <div className={`absolute -top-3 -left-2 w-8 h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center font-bold shadow-sm`}>
+                    <div className="relative pb-2 md:pb-0">
+                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
                         2
                       </div>
-                      <p className="text-sm font-semibold text-gray-700 pt-2">
+                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2">
                         Nhập thông tin Họ & tên và Số điện thoại và lựa chọn ưu đãi trang sức phù hợp
                       </p>
                     </div>
 
                     {/* Step 3 */}
-                    <div className="bg-gray-50 rounded-lg p-5 relative border border-gray-100">
-                      <div className={`absolute -top-3 -left-2 w-8 h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center font-bold shadow-sm`}>
+                    <div className="relative pb-2 md:pb-0">
+                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
                         3
                       </div>
-                      <p className="text-sm font-semibold text-gray-700 pt-2">
+                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2">
                         Chọn 01 trong 04 mã ưu đãi để mua sắm cùng PNJ
                       </p>
                     </div>
 
                     {/* Step 4 */}
-                    <div className="bg-gray-50 rounded-lg p-5 relative border border-gray-100">
-                      <div className={`absolute -top-3 -left-2 w-8 h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center font-bold shadow-sm`}>
+                    <div className="relative">
+                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
                         4
                       </div>
-                      <p className="text-sm font-semibold text-gray-700 pt-2">
+                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2">
                         Tin nhắn SMS/ZNS chứa mã ưu đãi sẽ được gửi đến số điện thoại khách hàng đã cung cấp trong vòng 10 phút
                       </p>
                     </div>
@@ -177,25 +193,36 @@ export default function App() {
 
               {/* CHI TIẾT ƯU ĐÃI & SALEDEAL */}
               <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="border-b border-gray-100 bg-blue-50/50 p-4 flex items-center justify-between">
+                <div className="border-b border-gray-100 bg-blue-50/50 p-3.5 md:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <Tag className={`${textPNJBlue} w-5 h-5`} />
-                    <h2 className={`font-bold text-xl ${textPNJBlue}`}>2. Chi tiết ưu đãi</h2>
+                    <h2 className={`font-bold text-base md:text-xl ${textPNJBlue}`}>2. Chi tiết ưu đãi</h2>
                   </div>
-                  <div className="flex items-center gap-2 bg-[#F2A900]/15 text-[#8a6100] px-3.5 py-1.5 rounded-full text-xs font-bold">
-                    <Clock className="w-4 h-4 text-[#F2A900]" /> 08/06 đến hết 30/06/2026
+                  <div className="inline-flex items-center gap-1.5 bg-[#F2A900]/15 text-[#8a6100] px-3 py-1 rounded-full text-[10px] md:text-xs font-bold self-start sm:self-auto">
+                    <Clock className="w-3.5 h-3.5 text-[#F2A900]" /> 08/06 đến hết 30/06/2026
                   </div>
                 </div>
                 
-                <div className="p-6">
-                  {/* Saledeal Alert */}
-                  <div className="mb-5 inline-flex items-center gap-2 bg-rose-50 text-rose-800 border border-rose-200 px-4 py-3 rounded-lg font-bold text-base shadow-sm">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping inline-block mr-1"></span>
-                    Saledeal: <span className="text-rose-700 underline underline-offset-4">TBU (Đang cập nhật)</span>
+                <div className="p-4 md:p-6">
+                  {/* Saledeal Alert (One-tap Copy on Mobile) */}
+                  <div className="mb-4 w-full">
+                    <button 
+                      onClick={() => handleCopy('TBU', 'main-deal')}
+                      className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-2 bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 px-4 py-2.5 rounded-lg font-bold text-sm md:text-base shadow-sm transition-all"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
+                        Saledeal: <span className="underline underline-offset-4 text-rose-700">TBU</span>
+                      </div>
+                      <span className="bg-rose-200/50 hover:bg-rose-200 text-rose-800 text-[10px] px-2 py-1 rounded flex items-center gap-1 ml-4 border border-rose-300/40">
+                        {copiedId === 'main-deal' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copiedId === 'main-deal' ? 'Đã chép!' : 'Chép'}
+                      </span>
+                    </button>
                   </div>
 
-                  {/* Main Table without Exclusion Column */}
-                  <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-inner">
+                  {/* DESKTOP TABLE VIEW */}
+                  <div className="hidden md:block overflow-x-auto border border-gray-200 rounded-lg shadow-inner">
                     <table className="w-full text-left border-collapse">
                       <thead>
                         <tr className={`${bgPNJBlue} text-white text-sm`}>
@@ -205,129 +232,135 @@ export default function App() {
                         </tr>
                       </thead>
                       <tbody className="text-sm divide-y divide-gray-200">
-                        
-                        {/* Row 9% */}
+                        {/* Desktop rows */}
                         <tr className="hover:bg-blue-50/30 transition-colors">
                           <td className="p-4 font-bold text-lg text-[#003366] border-r border-gray-100">
-                            9%
-                            <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
+                            9% <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
                           </td>
                           <td className="p-4 text-gray-700 font-semibold border-r border-gray-100">
                             Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp
                           </td>
                           <td className="p-4">
-                            <span className="inline-block bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">
-                              Khách hàng MỚI
-                            </span>
+                            <span className="inline-block bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">Khách hàng MỚI</span>
                           </td>
                         </tr>
-
-                        {/* Row 8% */}
                         <tr className="hover:bg-blue-50/30 transition-colors">
                           <td className="p-4 font-bold text-lg text-[#003366] border-r border-gray-100">
-                            8%
-                            <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
+                            8% <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
                           </td>
                           <td className="p-4 text-gray-700 font-semibold border-r border-gray-100">
                             Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp
                           </td>
                           <td className="p-4">
-                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">
-                              Khách hàng mới & cũ
-                            </span>
+                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">Khách hàng mới & cũ</span>
                           </td>
                         </tr>
-
-                        {/* Row 1.6M */}
                         <tr className="hover:bg-blue-50/30 transition-colors">
                           <td className="p-4 font-bold text-lg text-[#003366] border-r border-gray-100">
-                            1.600.000Đ
-                            <span className="block text-xs font-normal text-gray-500 mt-1">Cho đơn từ 20.000.000Đ</span>
+                            1.600.000Đ <span className="block text-xs font-normal text-gray-500 mt-1">Cho đơn từ 20.000.000Đ</span>
                           </td>
                           <td className="p-4 text-gray-700 font-semibold border-r border-gray-100">
                             Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp
                           </td>
                           <td className="p-4">
-                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">
-                              Khách hàng mới & cũ
-                            </span>
+                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">Khách hàng mới & cũ</span>
                           </td>
                         </tr>
-
-                        {/* Row 12% */}
                         <tr className="hover:bg-blue-50/30 transition-colors">
                           <td className="p-4 font-bold text-lg text-[#003366] border-r border-gray-100">
-                            12%
-                            <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
+                            12% <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
                           </td>
                           <td className="p-4 text-gray-700 font-semibold border-r border-gray-100">
                             Bạc / Hợp kim cao cấp
                           </td>
                           <td className="p-4">
-                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">
-                              Khách hàng mới & cũ
-                            </span>
+                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">Khách hàng mới & cũ</span>
                           </td>
                         </tr>
-
-                        {/* Row 5% */}
                         <tr className="hover:bg-blue-50/30 transition-colors">
                           <td className="p-4 font-bold text-lg text-[#003366] border-r border-gray-100">
-                            5%
-                            <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
+                            5% <span className="block text-xs font-normal text-gray-500 mt-1">Tối đa 1.500.000Đ</span>
                           </td>
                           <td className="p-4 text-gray-700 font-semibold border-r border-gray-100">
                             Trang sức Ý, trang sức Dây chuyền chất liệu Vàng/Platinum
                           </td>
                           <td className="p-4">
-                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">
-                              Khách hàng mới & cũ
-                            </span>
+                            <span className="inline-block bg-blue-50 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">Khách hàng mới & cũ</span>
                           </td>
                         </tr>
-
                       </tbody>
                     </table>
                   </div>
+
+                  {/* MOBILE VOUCHER CARDS VIEW (Extremely legible on phones) */}
+                  <div className="block md:hidden space-y-3">
+                    {[
+                      { val: "9%", cap: "Tối đa 1.500.000Đ", cat: "Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp", user: "Khách hàng MỚI", userBg: "bg-emerald-50 text-emerald-800" },
+                      { val: "8%", cap: "Tối đa 1.500.000Đ", cat: "Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp", user: "Khách mới & cũ", userBg: "bg-blue-50 text-blue-800" },
+                      { val: "1.600.000Đ", cap: "Đơn từ 20.000.000Đ", cat: "Vàng / Platinum / Đồng hồ / Bạc / Hợp kim cao cấp", user: "Khách mới & cũ", userBg: "bg-blue-50 text-blue-800" },
+                      { val: "12%", cap: "Tối đa 1.500.000Đ", cat: "Bạc / Hợp kim cao cấp", user: "Khách mới & cũ", userBg: "bg-blue-50 text-blue-800" },
+                      { val: "5%", cap: "Tối đa 1.500.000Đ", cat: "Trang sức Ý, Dây chuyền Vàng/Platinum", user: "Khách mới & cũ", userBg: "bg-blue-50 text-blue-800" }
+                    ].map((card, i) => (
+                      <div key={i} className="bg-slate-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between gap-4 relative overflow-hidden shadow-sm">
+                        {/* Decorative side accent */}
+                        <div className="absolute left-0 top-0 h-full w-1.5 bg-[#003366]"></div>
+                        
+                        <div className="flex-1 pl-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${card.userBg}`}>
+                              {card.user}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-500 font-medium">{card.cat}</p>
+                        </div>
+                        
+                        <div className="text-right shrink-0 border-l border-gray-200 pl-4 min-w-[100px]">
+                          <p className="text-2xl font-black text-[#003366] tracking-tight">{card.val}</p>
+                          <p className="text-[10px] text-gray-500 font-medium mt-0.5">{card.cap}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
                 </div>
               </section>
 
-              {/* LƯU Ý ÁP DỤNG (3 KHỐI HOÀN HẢO THEO CHỈ THỊ MỚI NHẤT) */}
+              {/* LƯU Ý ÁP DỤNG (3 MOBILE COMPACT GRID) */}
               <section className="bg-yellow-50 rounded-xl shadow-sm border border-yellow-200 overflow-hidden">
-                <div className="border-b border-yellow-200 bg-yellow-100/50 p-4 flex items-center gap-2">
+                <div className="border-b border-yellow-200 bg-yellow-100/50 p-3.5 md:p-4 flex items-center gap-2">
                   <Sun className="text-yellow-600 w-5 h-5 animate-[spin_12s_linear_infinite]" />
-                  <h2 className="font-bold text-xl text-yellow-800">3. Lưu ý áp dụng quan trọng</h2>
+                  <h2 className="font-bold text-base md:text-xl text-yellow-800">3. Lưu ý áp dụng quan trọng</h2>
                 </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 md:p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     
-                    {/* Note 1: Hạn sử dụng - Giữ nguyên tiêu đề */}
-                    <div className="bg-white/80 p-5 rounded-lg border border-yellow-200/50 shadow-sm flex gap-3 items-start min-h-[96px]">
-                      <div className="mt-1 shrink-0">
+                    {/* Note 1: Hạn sử dụng */}
+                    <div className="bg-white/80 p-4 rounded-xl border border-yellow-200/50 shadow-sm flex gap-3 items-center md:items-start min-h-[70px] md:min-h-[96px]">
+                      <div className="shrink-0">
                         <SummerIcons.Wave />
                       </div>
                       <div>
                         <p className="font-semibold text-yellow-950 text-xs">Hạn sử dụng mã ưu đãi:</p>
-                        <p className="text-lg font-extrabold text-[#003366] mt-0.5">31/07/2026</p>
+                        <p className="text-base md:text-lg font-extrabold text-[#003366]">31/07/2026</p>
                       </div>
                     </div>
 
-                    {/* Note 2: Tần suất - Bỏ tiêu đề phụ, căn giữa hoàn hảo */}
-                    <div className="bg-white/80 p-5 rounded-lg border border-yellow-200/50 shadow-sm flex gap-3 items-center min-h-[96px]">
+                    {/* Note 2: Tần suất */}
+                    <div className="bg-white/80 p-4 rounded-xl border border-yellow-200/50 shadow-sm flex gap-3 items-center min-h-[70px] md:min-h-[96px]">
                       <div className="shrink-0">
                         <SummerIcons.Sun />
                       </div>
-                      <p className="text-sm text-gray-700 leading-relaxed font-semibold">
+                      <p className="text-xs md:text-sm text-gray-700 leading-relaxed font-semibold">
                         Mỗi số điện thoại chỉ được tham gia nhận mã ưu đãi <span className="font-bold text-rose-600">01 lần</span> trong thời gian diễn ra chương trình.
                       </p>
                     </div>
 
-                    {/* Note 3: Đồng bộ hệ thống - Bỏ tiêu đề phụ, căn giữa hoàn hảo */}
-                    <div className="bg-white/80 p-5 rounded-lg border border-yellow-200/50 shadow-sm flex gap-3 items-center min-h-[96px]">
+                    {/* Note 3: Đồng bộ hệ thống */}
+                    <div className="bg-white/80 p-4 rounded-xl border border-yellow-200/50 shadow-sm flex gap-3 items-center min-h-[70px] md:min-h-[96px]">
                       <div className="shrink-0">
                         <SummerIcons.Sunglasses />
                       </div>
-                      <p className="text-sm text-gray-700 leading-relaxed font-semibold">
+                      <p className="text-xs md:text-sm text-gray-700 leading-relaxed font-semibold">
                         Mã ưu đãi sẽ được hệ thống đồng bộ chính chủ và sử dụng được sau thời gian <span className="font-bold text-[#003366]">30 phút</span> kể từ khi nhận được tin nhắn.
                       </p>
                     </div>
@@ -340,31 +373,33 @@ export default function App() {
 
           {/* ================= TAB 2: CHƯƠNG TRÌNH AWO ================= */}
           {activeTab === 'tab2' && (
-            <div className="space-y-6 animate-in fade-in duration-300">
+            <div className="space-y-4 md:space-y-6 animate-in fade-in duration-300">
               
               {/* 1. CHƯƠNG TRÌNH TAB SALE */}
               <ProgramCard 
                 title="1. Chương trình Tab Sale (Online Exclusive)"
-                time="01/06 đến hết ngày 30/06/2026"
+                time="01/06 - 30/06/2026"
                 saledeal="70006694"
                 icon={<Tag className="w-5 h-5 text-white" />}
                 color="bg-[#0055A4]"
+                onCopyClick={(code) => handleCopy(code, 'tab-sale')}
+                isCopied={copiedId === 'tab-sale'}
               >
-                <div className="flex flex-col md:flex-row gap-4 mb-4">
-                  <div className="bg-white border-2 border-[#0055A4]/20 p-4 rounded-lg flex-1 text-center shadow-sm">
-                    <p className="text-gray-500 font-semibold text-sm mb-1">Trang sức Vàng</p>
-                    <p className="text-3xl font-bold text-[#003366]">Ưu đãi đến 30%</p>
-                    <p className="text-xs text-gray-400 mt-1">Sản phẩm chọn lọc theo danh mục</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                  <div className="bg-white border-2 border-[#0055A4]/15 p-4 rounded-xl text-center shadow-sm">
+                    <p className="text-gray-500 font-semibold text-xs mb-1 uppercase tracking-wider">Trang sức Vàng</p>
+                    <p className="text-2xl md:text-3xl font-bold text-[#003366]">Ưu đãi đến 30%</p>
+                    <p className="text-[10px] text-gray-400 mt-1">Sản phẩm chọn lọc theo danh mục</p>
                   </div>
-                  <div className="bg-white border-2 border-[#0055A4]/20 p-4 rounded-lg flex-1 text-center shadow-sm">
-                    <p className="text-gray-500 font-semibold text-sm mb-1">Trang sức Bạc</p>
-                    <p className="text-3xl font-bold text-[#003366]">Ưu đãi đến 50%</p>
-                    <p className="text-xs text-gray-400 mt-1">Áp dụng trực tiếp trên website PNJ</p>
+                  <div className="bg-white border-2 border-[#0055A4]/15 p-4 rounded-xl text-center shadow-sm">
+                    <p className="text-gray-500 font-semibold text-xs mb-1 uppercase tracking-wider">Trang sức Bạc</p>
+                    <p className="text-2xl md:text-3xl font-bold text-[#003366]">Ưu đãi đến 50%</p>
+                    <p className="text-[10px] text-gray-400 mt-1">Áp dụng trực tiếp trên website PNJ</p>
                   </div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                  <p className="font-bold text-sm text-[#003366] mb-2">Lưu ý chương trình:</p>
-                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-1.5">
+                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                  <p className="font-bold text-xs text-[#003366] mb-1.5">Lưu ý chương trình:</p>
+                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-1.5 leading-relaxed">
                     <li>Chỉ áp dụng ưu đãi cho danh sách mã 13 ký tự đính kèm (sheet "Online Exclusive").</li>
                     <li>Chỉ áp dụng cho việc chọn hàng có sẵn, bao gồm tất cả ni, size. <b>Không áp dụng việc đặt hàng lại.</b></li>
                     <li>Không áp dụng đồng thời với bất kỳ ưu đãi nào khác (VIP, VIPpass, code giảm giá khác...).</li>
@@ -375,34 +410,37 @@ export default function App() {
               {/* 2. CHƯƠNG TRÌNH LIVESTREAM */}
               <ProgramCard 
                 title="2. Chương trình Livestream"
-                time="01/06 đến hết ngày 30/06/2026"
+                time="01/06 - 30/06/2026"
                 saledeal="70006705"
                 icon={<MonitorPlay className="w-5 h-5 text-white" />}
                 color="bg-[#E53935]"
+                onCopyClick={(code) => handleCopy(code, 'livestream')}
+                isCopied={copiedId === 'livestream'}
               >
-                <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-inner mb-4 bg-white">
-                  <table className="w-full text-left border-collapse text-sm">
+                {/* Table with horizontal scroll indicator on Mobile */}
+                <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-inner mb-4 bg-white relative">
+                  <table className="w-full text-left border-collapse text-xs md:text-sm min-w-[500px] sm:min-w-0">
                     <thead className="bg-red-50 text-red-900">
                       <tr>
                         <th className="p-3 border-b border-gray-200 font-bold">Chất liệu</th>
                         <th className="p-3 border-b border-gray-200 font-bold">Nội dung ưu đãi</th>
-                        <th className="p-3 border-b border-gray-200 font-bold">Điều kiện áp dụng</th>
+                        <th className="p-3 border-b border-gray-200 font-bold">Điều kiện</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      <tr>
+                      <tr className="hover:bg-red-50/10">
                         <td className="p-3 font-semibold text-gray-800">Bạc / Hợp kim cao cấp</td>
                         <td className="p-3 font-bold text-red-600">Giảm 12% (Tối đa 1.500.000Đ)</td>
-                        <td className="p-3 text-gray-600">Áp dụng hóa đơn từ 700.000Đ</td>
+                        <td className="p-3 text-gray-600">Hóa đơn từ 700.000Đ</td>
                       </tr>
-                      <tr>
-                        <td className="p-3 font-semibold text-gray-800" rowSpan={2}>Vàng / Platinum / Bạc / Hợp kim cao cấp & Đồng hồ</td>
+                      <tr className="hover:bg-red-50/10">
+                        <td className="p-3 font-semibold text-gray-800" rowSpan={2}>Vàng / Platinum / Bạc / Hợp kim & ĐH</td>
                         <td className="p-3 font-bold text-red-600">Giảm 8% (Tối đa 1.500.000Đ)</td>
                         <td className="p-3 text-gray-600 font-medium text-blue-700">Khách hàng mới & cũ</td>
                       </tr>
-                      <tr>
+                      <tr className="hover:bg-red-50/10">
                         <td className="p-3 font-bold text-red-600 border-t border-gray-100">Giảm 9% (Tối đa 1.500.000Đ)</td>
-                        <td className="p-3 text-gray-600 font-medium text-emerald-700 border-t border-gray-100">Áp dụng khách hàng mới</td>
+                        <td className="p-3 text-gray-600 font-medium text-emerald-700 border-t border-gray-100">Khách mới</td>
                       </tr>
                       <tr className="bg-amber-50/50">
                         <td className="p-3 font-bold text-amber-900" colSpan={2}>🎁 Tặng quà Pin Thời Trang (Mã: 40004079)</td>
@@ -411,7 +449,8 @@ export default function App() {
                     </tbody>
                   </table>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 text-xs text-gray-700 space-y-1">
+                
+                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 text-xs text-gray-700 space-y-1.5 leading-relaxed">
                   <p><b>Yêu cầu bắt buộc:</b> Khi tạo đơn/hóa đơn trên Mpos, phải ghi rõ nguồn đơn từ "Livestream" phục vụ đối soát.</p>
                   <p><b>Điều kiện loại trừ:</b> Không áp dụng cho dây chuyền và trang sức không gắn đá thuộc chất liệu Vàng/Platinum, vàng tài lộc, 22k/24k, nhẫn trơn, kim cương/đá rời, bộ lớn, phụ kiện, sản phẩm PNJ Art tính công.</p>
                 </div>
@@ -419,26 +458,28 @@ export default function App() {
 
               {/* 3. CT WEB-ENGAGEMENT */}
               <ProgramCard 
-                title="3. Web-Engagement (Dành cho khách hàng mới)"
-                time="15/04 đến hết ngày 30/06/2026"
+                title="3. Web-Engagement"
+                time="15/04 - 30/06/2026"
                 saledeal="70006697"
                 icon={<Flame className="w-5 h-5 text-white fill-white" />}
                 color="bg-[#F2A900]"
                 isHot={true}
+                onCopyClick={(code) => handleCopy(code, 'web-engage')}
+                isCopied={copiedId === 'web-engage'}
               >
-                <div className="flex items-center gap-6 bg-white p-5 rounded-lg border border-yellow-200 mb-4 shadow-sm">
-                  <div className="text-center">
-                    <div className="text-4xl font-extrabold text-[#F2A900]">9%</div>
-                    <div className="text-[10px] text-gray-400 uppercase font-bold mt-1 tracking-wider">Giảm tối đa 1.5M</div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white p-4 md:p-5 rounded-xl border border-yellow-200 mb-4 shadow-sm">
+                  <div className="text-center sm:text-left shrink-0">
+                    <div className="text-3xl md:text-4xl font-extrabold text-[#F2A900]">9%</div>
+                    <div className="text-[9px] text-gray-400 uppercase font-bold mt-1 tracking-wider">Giảm tối đa 1.5M</div>
                   </div>
-                  <div className="border-l border-gray-200 pl-6 text-sm text-gray-700">
+                  <div className="border-t sm:border-t-0 sm:border-l border-gray-200 pt-3 sm:pt-0 sm:pl-6 text-xs md:text-sm text-gray-700">
                     <p className="font-semibold text-gray-900">Nội dung ưu đãi dành cho Khách hàng mới</p>
-                    <p className="mt-1 text-xs text-gray-500">Khách truy cập trang chủ PNJ, nhấn banner "NHẬN QUÀ NGAY" để nhận mã qua ZNS/SMS trong 10 phút.</p>
+                    <p className="mt-1 text-[11px] text-gray-500 leading-relaxed">Khách truy cập trang chủ PNJ, nhấn banner "NHẬN QUÀ NGAY" để nhận mã qua ZNS/SMS trong 10 phút.</p>
                   </div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
                   <p className="font-bold text-xs text-[#003366] mb-1.5">Lưu ý quan trọng:</p>
-                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-1">
+                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-1.5 leading-relaxed">
                     <li>Hạn sử dụng: <b>15 ngày</b> kể từ khi nhận mã ưu đãi.</li>
                     <li>Số điện thoại mua hàng phải trùng khớp hoàn toàn với số điện thoại nhận mã.</li>
                     <li>Được áp dụng đồng thời với ưu đãi cổng thanh toán và chính sách trả góp hiện hành.</li>
@@ -449,32 +490,40 @@ export default function App() {
               {/* 4. CT EXIT INTENT */}
               <ProgramCard 
                 title="4. Giữ Chân Khách Hàng (Exit Intent)"
-                time="08/06 đến hết ngày 30/06/2026"
-                saledeal="70006698 (Khách mới) | 70006699 (Khách cũ)"
+                time="08/06 - 30/06/2026"
+                saledeal="70006698 / 70006699"
                 icon={<MousePointerClick className="w-5 h-5 text-white" />}
                 color="bg-[#8E44AD]"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div className="bg-white border-2 border-purple-100 p-4 rounded-lg text-center shadow-sm">
-                    <p className="text-purple-800 font-bold text-sm uppercase tracking-wider">Khách Hàng Mới</p>
-                    <p className="text-3xl font-extrabold text-purple-700 mt-1">Giảm 9%</p>
-                    <p className="text-xs text-gray-400">Tối đa 1.500.000Đ</p>
-                    <span className="inline-block bg-purple-50 text-purple-700 text-xs font-mono font-bold px-2 py-0.5 rounded mt-2 border border-purple-200">
-                      Saledeal: 70006698
-                    </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                  <div className="bg-white border border-purple-100 p-4 rounded-xl text-center shadow-sm relative">
+                    <p className="text-purple-800 font-bold text-[10px] uppercase tracking-wider">Khách Hàng Mới</p>
+                    <p className="text-2xl font-extrabold text-purple-700 mt-0.5">Giảm 9%</p>
+                    <p className="text-[10px] text-gray-400">Tối đa 1.500.000Đ</p>
+                    <button 
+                      onClick={() => handleCopy('70006698', 'exit-new')}
+                      className="mt-2.5 w-full inline-flex items-center justify-center gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-mono font-bold py-1.5 px-3 rounded-lg border border-purple-200/60 transition-all"
+                    >
+                      {copiedId === 'exit-new' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      70006698
+                    </button>
                   </div>
-                  <div className="bg-white border-2 border-purple-100 p-4 rounded-lg text-center shadow-sm">
-                    <p className="text-purple-800 font-bold text-sm uppercase tracking-wider">Khách Hàng Cũ</p>
-                    <p className="text-3xl font-extrabold text-purple-700 mt-1">Giảm 8%</p>
-                    <p className="text-xs text-gray-400">Tối đa 1.500.000Đ</p>
-                    <span className="inline-block bg-purple-50 text-purple-700 text-xs font-mono font-bold px-2 py-0.5 rounded mt-2 border border-purple-200">
-                      Saledeal: 70006699
-                    </span>
+                  <div className="bg-white border border-purple-100 p-4 rounded-xl text-center shadow-sm relative">
+                    <p className="text-purple-800 font-bold text-[10px] uppercase tracking-wider">Khách Hàng Cũ</p>
+                    <p className="text-2xl font-extrabold text-purple-700 mt-0.5">Giảm 8%</p>
+                    <p className="text-[10px] text-gray-400">Tối đa 1.500.000Đ</p>
+                    <button 
+                      onClick={() => handleCopy('70006699', 'exit-old')}
+                      className="mt-2.5 w-full inline-flex items-center justify-center gap-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-mono font-bold py-1.5 px-3 rounded-lg border border-purple-200/60 transition-all"
+                    >
+                      {copiedId === 'exit-old' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      70006699
+                    </button>
                   </div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
                   <p className="font-bold text-xs text-[#003366] mb-1.5">Lưu ý chương trình:</p>
-                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-1">
+                  <ul className="list-disc pl-5 text-xs text-gray-700 space-y-1.5 leading-relaxed">
                     <li>Hạn sử dụng mã ưu đãi: <b>30 ngày</b> kể từ ngày nhận ưu đãi.</li>
                     <li>Mỗi số điện thoại/thiết bị chỉ được tham gia nhận mã 01 lần duy nhất trong suốt thời gian diễn ra chương trình.</li>
                   </ul>
@@ -485,49 +534,36 @@ export default function App() {
               <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="border-b border-gray-100 bg-slate-800 p-4 flex items-center gap-2">
                   <ChevronRight className="text-white w-5 h-5" />
-                  <h2 className="font-bold text-xl text-white">5. Các Code AWO khác</h2>
+                  <h2 className="font-bold text-base md:text-xl text-white">5. Các Code AWO khác</h2>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm divide-y divide-gray-200">
+                  <table className="w-full text-left text-xs md:text-sm divide-y divide-gray-200">
                     <thead className="bg-slate-50">
-                      <tr className="text-xs text-slate-500 uppercase font-bold">
-                        <th className="p-4">Chương trình</th>
-                        <th className="p-4 text-right">Saledeal liên quan</th>
+                      <tr className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">
+                        <th className="p-3.5">Chương trình</th>
+                        <th className="p-3.5 text-right">Saledeal liên quan (Chạm để chép)</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                      <tr className="hover:bg-slate-50/50 transition-colors">
-                        <td className="p-4 font-bold text-slate-800">Code CSKH qua kênh Socom/Hotline</td>
-                        <td className="p-4 text-right">
-                          <span className="bg-slate-100 text-slate-800 font-mono font-bold px-3 py-1 rounded border border-slate-200">
-                            70006700
-                          </span>
-                        </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50/50 transition-colors">
-                        <td className="p-4 font-bold text-slate-800">Sorry code</td>
-                        <td className="p-4 text-right">
-                          <span className="bg-slate-100 text-slate-800 font-mono font-bold px-3 py-1 rounded border border-slate-200">
-                            70006701
-                          </span>
-                        </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50/50 transition-colors">
-                        <td className="p-4 font-bold text-slate-800">Code Retention</td>
-                        <td className="p-4 text-right">
-                          <span className="bg-slate-100 text-slate-800 font-mono font-bold px-3 py-1 rounded border border-slate-200">
-                            70006702
-                          </span>
-                        </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50/50 transition-colors">
-                        <td className="p-4 font-bold text-slate-800">Chương trình Click & Collect</td>
-                        <td className="p-4 text-right">
-                          <span className="bg-slate-100 text-slate-800 font-mono font-bold px-3 py-1 rounded border border-slate-200">
-                            70006703
-                          </span>
-                        </td>
-                      </tr>
+                      {[
+                        { title: "Code CSKH qua kênh Socom/Hotline", code: "70006700", id: "code-cskh" },
+                        { title: "Sorry code", code: "70006701", id: "code-sorry" },
+                        { title: "Code Retention", code: "70006702", id: "code-retention" },
+                        { title: "Chương trình Click & Collect", code: "70006703", id: "code-cc" }
+                      ].map((row, idx) => (
+                        <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                          <td className="p-3.5 font-bold text-slate-800 leading-tight">{row.title}</td>
+                          <td className="p-3.5 text-right shrink-0">
+                            <button
+                              onClick={() => handleCopy(row.code, row.id)}
+                              className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm transition-all"
+                            >
+                              {copiedId === row.id ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
+                              {row.code}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -539,19 +575,19 @@ export default function App() {
       </div>
 
       {/* Global Campaign Footer */}
-      <footer className="bg-[#002244] text-white py-8 border-t-2 border-[#D4AF37] mt-12">
+      <footer className="bg-[#002244] text-white py-6 md:py-8 border-t-2 border-[#D4AF37] mt-8 md:mt-12">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <p className="text-sm text-blue-200/80 mb-3">
+          <p className="text-xs text-blue-200/70 mb-3 leading-relaxed">
             © 2026 Công ty Cổ phần Vàng bạc Đá quý Phú Nhuận - PNJ Online Division
           </p>
           <a 
             href="https://pnjcomvn-my.sharepoint.com/:w:/g/personal/hau_hp_pnj_com_vn/IQBop6WSXc-0R6OZgmbZUpqVAW5MQWuiV3WvjWNSHqlbT7k?e=Q1vvgj"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-[#D4AF37] hover:text-white transition-all font-semibold underline underline-offset-4 text-sm"
+            className="inline-flex items-center gap-1.5 text-[#D4AF37] hover:text-white transition-all font-semibold underline underline-offset-4 text-xs md:text-sm"
           >
             Chi tiết TBTK xem tại đây
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
             </svg>
           </a>
@@ -563,24 +599,35 @@ export default function App() {
 }
 
 // Component helper cho Tab 2 để tối ưu hóa và đồng bộ thiết kế
-function ProgramCard({ title, time, saledeal, icon, color, isHot, children }) {
+function ProgramCard({ title, time, saledeal, icon, color, isHot, onCopyClick, isCopied, children }) {
   return (
     <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all hover:shadow-md">
       <div className={`${color} p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 text-white`}>
         <div className="flex items-center gap-3">
-          <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+          <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm shrink-0">
             {icon}
           </div>
-          <h2 className="font-bold text-lg md:text-xl flex items-center gap-2">
-            {title} {isHot && <span className="bg-red-500 text-white text-[10px] uppercase px-2 py-0.5 rounded-full font-bold animate-pulse">Hot</span>}
+          <h2 className="font-bold text-sm md:text-xl flex items-center gap-2 leading-tight">
+            {title} {isHot && <span className="bg-red-500 text-white text-[8px] md:text-[10px] uppercase px-2 py-0.5 rounded-full font-bold animate-pulse shrink-0">Hot</span>}
           </h2>
         </div>
-        <div className="flex flex-col items-end gap-1 text-sm bg-black/15 px-3 py-1.5 rounded-lg border border-white/10">
-          <span className="flex items-center gap-1 opacity-90 text-xs"><Clock className="w-3.5 h-3.5"/> {time}</span>
-          <span className="font-mono font-bold text-xs">Saledeal: {saledeal}</span>
+        <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 text-xs bg-black/15 px-3 py-2 rounded-lg border border-white/10 w-full md:w-auto">
+          <span className="flex items-center gap-1 opacity-95 text-[10px] md:text-xs"><Clock className="w-3.5 h-3.5 shrink-0"/> {time}</span>
+          
+          {onCopyClick ? (
+            <button 
+              onClick={() => onCopyClick(saledeal)}
+              className="font-mono font-bold text-[10px] md:text-xs bg-white/20 hover:bg-white/30 text-white px-2 py-1 rounded flex items-center gap-1 transition-all"
+            >
+              {isCopied ? <Check className="w-3 h-3 text-emerald-300" /> : <Copy className="w-3 h-3 text-white/80" />}
+              {isCopied ? 'Đã chép' : saledeal}
+            </button>
+          ) : (
+            <span className="font-mono font-bold text-[10px] md:text-xs text-yellow-300">{saledeal}</span>
+          )}
         </div>
       </div>
-      <div className="p-5">
+      <div className="p-4 md:p-5">
         {children}
       </div>
     </section>
