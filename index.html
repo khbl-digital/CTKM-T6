@@ -228,25 +228,25 @@
               <div className="flex gap-2 border-b-2 border-gray-200">
                 <button
                   onClick={() => setActiveTab('tab1')}
-                  className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
+                  className={`flex-1 sm:flex-initial px-2 md:px-6 py-2.5 md:py-3.5 font-bold text-[11px] sm:text-sm md:text-lg rounded-t-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 border-b-2 leading-snug ${
                     activeTab === 'tab1' 
                       ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
                       : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
                   }`}
                 >
-                  TIỀM NĂNG 
-                  <Flame className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === 'tab1' ? "text-[#F2A900] fill-[#F2A900]" : "text-gray-400"}`} />
+                  <span>CHƯƠNG TRÌNH THU HÚT<br className="block md:hidden"/> KHÁCH HÀNG TIỀM NĂNG</span>
+                  <Flame className={`w-4 h-4 md:w-5 md:h-5 shrink-0 ${activeTab === 'tab1' ? "text-[#F2A900] fill-[#F2A900]" : "text-gray-400"}`} />
                 </button>
                 <button
                   onClick={() => setActiveTab('tab2')}
-                  className={`flex-1 sm:flex-initial px-3 md:px-6 py-3.5 font-bold text-sm md:text-lg rounded-t-lg transition-all flex items-center justify-center gap-1.5 md:gap-2 border-b-2 ${
+                  className={`flex-1 sm:flex-initial px-2 md:px-6 py-2.5 md:py-3.5 font-bold text-[11px] sm:text-sm md:text-lg rounded-t-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 border-b-2 leading-snug ${
                     activeTab === 'tab2' 
                   ? `${bgPNJBlue} text-white ${borderGold} shadow-[0_-4px_15px_rgba(0,51,102,0.15)]` 
                   : 'bg-white text-gray-500 border-transparent hover:bg-blue-50/50'
               }`}
             >
-              CHƯƠNG TRÌNH AWO 
-              <Gift className={`w-4 h-4 md:w-5 md:h-5 ${activeTab === 'tab2' ? "text-[#F2A900]" : "text-gray-400"}`} />
+              <span>CHƯƠNG TRÌNH AWO</span>
+              <Gift className={`w-4 h-4 md:w-5 md:h-5 shrink-0 ${activeTab === 'tab2' ? "text-[#F2A900]" : "text-gray-400"}`} />
             </button>
           </div>
         </div>
@@ -265,14 +265,15 @@
                   <h2 className={`font-bold text-base md:text-xl ${textPNJBlue}`}>1. Cách thức tham gia chương trình</h2>
                 </div>
                 <div className="p-4 md:p-6">
-                  <div className="flex flex-col md:grid md:grid-cols-4 gap-4 relative border-l-2 border-[#D4AF37] md:border-l-0 ml-3 md:ml-0 pl-4 md:pl-0">
+                  {/* Sử dụng Grid thay vì Timeline line để tránh đè chữ */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-5 md:gap-4 mt-2">
                     
                     {/* Step 1 */}
-                    <div className="relative flex flex-col justify-between h-full pb-2 md:pb-0">
-                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
+                    <div className="bg-gray-50/80 rounded-xl p-4 md:p-5 relative border border-gray-200 flex flex-col justify-between h-full pt-6 md:pt-6 shadow-sm">
+                      <div className={`absolute -top-3 -left-2 w-7 h-7 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:text-sm font-bold shadow-md border-2 border-white`}>
                         1
                       </div>
-                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2 mb-3">
+                      <p className="text-sm font-semibold text-gray-700 mb-3">
                         Khách hàng truy cập vào trang LDP chương trình
                       </p>
                       <a 
@@ -286,31 +287,31 @@
                     </div>
 
                     {/* Step 2 */}
-                    <div className="relative pb-2 md:pb-0">
-                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
+                    <div className="bg-gray-50/80 rounded-xl p-4 md:p-5 relative border border-gray-200 flex flex-col h-full pt-6 md:pt-6 shadow-sm mt-1 md:mt-0">
+                      <div className={`absolute -top-3 -left-2 w-7 h-7 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:text-sm font-bold shadow-md border-2 border-white`}>
                         2
                       </div>
-                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2">
+                      <p className="text-sm font-semibold text-gray-700">
                         Nhập thông tin Họ & tên và Số điện thoại và lựa chọn ưu đãi trang sức phù hợp
                       </p>
                     </div>
 
                     {/* Step 3 */}
-                    <div className="relative pb-2 md:pb-0">
-                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
+                    <div className="bg-gray-50/80 rounded-xl p-4 md:p-5 relative border border-gray-200 flex flex-col h-full pt-6 md:pt-6 shadow-sm mt-1 md:mt-0">
+                      <div className={`absolute -top-3 -left-2 w-7 h-7 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:text-sm font-bold shadow-md border-2 border-white`}>
                         3
                       </div>
-                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2">
+                      <p className="text-sm font-semibold text-gray-700">
                         Chọn 01 trong 04 mã ưu đãi để mua sắm cùng PNJ
                       </p>
                     </div>
 
                     {/* Step 4 */}
-                    <div className="relative">
-                      <div className={`absolute -left-[27px] md:left-2 -top-1 md:-top-3 w-6 h-6 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:font-bold font-semibold shadow-sm z-10`}>
+                    <div className="bg-gray-50/80 rounded-xl p-4 md:p-5 relative border border-gray-200 flex flex-col h-full pt-6 md:pt-6 shadow-sm mt-1 md:mt-0">
+                      <div className={`absolute -top-3 -left-2 w-7 h-7 md:w-8 md:h-8 ${bgGold} text-[#003366] rounded-full flex items-center justify-center text-xs md:text-sm font-bold shadow-md border-2 border-white`}>
                         4
                       </div>
-                      <p className="text-xs md:text-sm font-semibold text-gray-700 md:pt-2">
+                      <p className="text-sm font-semibold text-gray-700">
                         Tin nhắn SMS/ZNS chứa mã ưu đãi sẽ được gửi đến số điện thoại khách hàng đã cung cấp trong vòng 10 phút
                       </p>
                     </div>
